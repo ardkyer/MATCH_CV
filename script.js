@@ -18,10 +18,10 @@ function loadModel(url) {
 }
 
 Promise.all([
-  loadModel('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/tiny_face_detector_model-weights_manifest.json'),
-  loadModel('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/face_landmark_68_model-weights_manifest.json'),
-  loadModel('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/face_recognition_model-weights_manifest.json'),
-  loadModel('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/face_expression_model-weights_manifest.json')
+  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/tiny_face_detector_model-weights_manifest.json'),
+  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_landmark_68_model-weights_manifest.json'),
+  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_recognition_model-weights_manifest.json'),
+  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_expression_model-weights_manifest.json')
 ]).then(([tinyFaceDetectorModel, faceLandmark68NetModel, faceRecognitionNetModel, faceExpressionNetModel]) => {
   faceapi.nets.tinyFaceDetector.load(tinyFaceDetectorModel);
   faceapi.nets.faceLandmark68Net.load(faceLandmark68NetModel);
