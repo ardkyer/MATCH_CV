@@ -1,10 +1,10 @@
 const video = document.getElementById('video')
 
 Promise.all([
-    faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models'),
-    faceapi.nets.faceRecognitionNet.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models'),
-    faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models')
+    faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/tiny_face_detector_model-weights_manifest.json'),
+    faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/face_landmark_68_model-weights_manifest.json'),
+    faceapi.nets.faceRecognitionNet.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models/face_recognition_model-weights_manifest.json'),
+    faceapi.nets.faceExpressionNet.loadFromUri('https://cdn.jsdelivr.net/gh/ardkyer/MATCH_CV/models//face_expression_model-weights_manifest.json')
 ]).then(startVideo);
 
 
