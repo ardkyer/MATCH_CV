@@ -18,17 +18,18 @@ function loadModel(url) {
 }
 
 Promise.all([
-  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/tiny_face_detector_model-weights_manifest.json'),
-  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_landmark_68_model-weights_manifest.json'),
-  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_recognition_model-weights_manifest.json'),
-  loadModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_expression_model-weights_manifest.json')
-]).then(([tinyFaceDetectorModel, faceLandmark68NetModel, faceRecognitionNetModel, faceExpressionNetModel]) => {
-  faceapi.nets.tinyFaceDetector.load(tinyFaceDetectorModel);
-  faceapi.nets.faceLandmark68Net.load(faceLandmark68NetModel);
-  faceapi.nets.faceRecognitionNet.load(faceRecognitionNetModel);
-  faceapi.nets.faceExpressionNet.load(faceExpressionNetModel);
-  startVideo();
-}).catch((error) => {
+  faceapi.loadTinyFaceDetectorModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/tiny_face_detector_model-weights_manifest.json'),
+  faceapi.loadFaceLandmarkModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_landmark_68_model-weights_manifest.json'),
+  faceapi.loadFaceRecognitionModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_recognition_model-weights_manifest.json'),
+  faceapi.loadFaceExpressionModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_expression_model-weights_manifest.json'),
+  faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model-shard1'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_landmark_68_model-shard1'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard1'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard2'),
+  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_expression_model-shard1')
+])
+.then(startVideo)
+.catch((error) => {
   console.error('Error loading models:', error);
 });
 
