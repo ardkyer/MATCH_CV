@@ -6,10 +6,10 @@ Promise.all([
   faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model'),
   faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_expression_model')
 ])
-  .then(startVideo)
-  .catch((error) => {
-    console.error('Error loading models:', error);
-  });
+.then(startVideo)
+.catch((error) => {
+  console.error('Error loading models:', error);
+});
 
 function startVideo() {
   navigator.getUserMedia(
@@ -28,20 +28,25 @@ video.addEventListener('play', () => {
   const displaySize = { width: video.width, height: video.height };
   faceapi.matchDimensions(canvas, displaySize);
 
-  setInterval(async () => {
+  const detectFaces = async () => {
+    if (video.paused || video.ended) {
+      return;
+    }
+
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
     const resizedDetections = faceapi.resizeResults(detections, displaySize);
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    faceapi.draw.drawDetections(canvas, resizedDetections);
-    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
 
-    if (detections.length > 0 && detections[0].expressions.happy > 0.5 && !timer) {
-      count++;
-      document.getElementById('count').textContent = `Count: ${count}`;
-      timer = setTimeout(() => {
-        timer = null;
-      }, 5000);
+    if (video.width > 0 && video.height > 0) {
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      faceapi.draw.drawDetections(canvas, resizedDetections);
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
     }
-  }, 100);
+    
+    requestAnimationFrame(detectFaces);
+  };
+
+  detectFaces();
+}, 100);
 });
