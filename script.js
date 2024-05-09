@@ -1,6 +1,5 @@
 const video = document.getElementById('video');
-
-startVideo();
+const expressionOutput = document.getElementById('expression-output');
 
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model'),
@@ -22,12 +21,6 @@ function startVideo() {
 }
 
 video.addEventListener('play', () => {
-  const canvas = faceapi.createCanvasFromMedia(video);
-  document.body.append(canvas);
-
-  const displaySize = { width: video.width, height: video.height };
-  faceapi.matchDimensions(canvas, displaySize);
-
   const detectFaces = async () => {
     if (video.paused || video.ended) {
       return;
@@ -35,12 +28,13 @@ video.addEventListener('play', () => {
 
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
 
-    if (video.width > 0 && video.height > 0) {
-      const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-      faceapi.draw.drawDetections(canvas, resizedDetections);
-      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+    if (detections.length > 0) {
+      const expressions = detections[0].expressions;
+      const maxExpression = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+      const expressionValue = expressions[maxExpression].toFixed(2);
+      expressionOutput.textContent = `${maxExpression} (${expressionValue})`;
+    } else {
+      expressionOutput.textContent = '';
     }
 
     requestAnimationFrame(detectFaces);
