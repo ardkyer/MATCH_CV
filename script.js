@@ -18,11 +18,10 @@ function loadModel(url) {
 }
 
 Promise.all([
-  faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model-shard1'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_landmark_68_model-shard1'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard1'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard2'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_expression_model-shard1')
+  faceapi.loadTinyFaceDetectorModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/tiny_face_detector_model-weights_manifest.json'),
+  faceapi.loadFaceLandmarkModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_landmark_68_model-weights_manifest.json'),
+  faceapi.loadFaceRecognitionModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_recognition_model-weights_manifest.json'),
+  faceapi.loadFaceExpressionModel('https://raw.githubusercontent.com/ardkyer/MATCH_CV/main/models/face_expression_model-weights_manifest.json'),
 ])
 .then(startVideo)
 .catch((error) => {
