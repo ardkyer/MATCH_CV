@@ -1,5 +1,7 @@
 const video = document.getElementById('video');
 
+startVideo();
+
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model-shard1'),
   faceapi.nets.faceLandmark68Net.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_landmark_68_model-shard1'),
