@@ -1,7 +1,5 @@
 const video = document.getElementById('video');
 
-startVideo();
-
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model'),
   faceapi.nets.faceLandmark68Net.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_landmark_68_model'),
@@ -21,30 +19,29 @@ function startVideo() {
   );
 }
 
+let count = 0;
+let timer = null;
+
 video.addEventListener('play', () => {
   const canvas = faceapi.createCanvasFromMedia(video);
   document.body.append(canvas);
-  
   const displaySize = { width: video.width, height: video.height };
   faceapi.matchDimensions(canvas, displaySize);
 
-  const detectFaces = async () => {
-    if (video.paused || video.ended) {
-      return;
-    }
-
+  setInterval(async () => {
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-    
-    if (video.width > 0 && video.height > 0) {
-      const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-      faceapi.draw.drawDetections(canvas, resizedDetections);
-      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    faceapi.draw.drawDetections(canvas, resizedDetections);
+    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+
+    if (detections.length > 0 && detections[0].expressions.happy > 0.5 && !timer) {
+      count++;
+      document.getElementById('count').textContent = `Count: ${count}`;
+      timer = setTimeout(() => {
+        timer = null;
+      }, 5000);
     }
-
-    requestAnimationFrame(detectFaces);
-  };
-
-  detectFaces();
+  }, 100);
 });
