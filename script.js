@@ -10,13 +10,7 @@ Promise.all([
   faceapi.nets.faceLandmark68Net.loadFromUri('https://ardkyer.github.io/MATCH\_CV/models/face\_landmark\_68\_model-shard1'),
   faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH\_CV/models/face\_recognition\_model-shard1'),
   faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH\_CV/models/face\_recognition\_model-shard2'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH\_CV/models/face\_expression\_model-shard1'),
-
-  faceapi.nets.tinyFaceDetector.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/tiny_face_detector_model-shard1/tiny_face_detector_model-weights_manifest.json'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_landmark_68_model-shard1/face_landmark_68_model-weights_manifest.json'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard1/face_recognition_model-weights_manifest.json'),
-  faceapi.nets.faceRecognitionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_recognition_model-shard2/face_recognition_model-weights_manifest.json'),
-  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH_CV/models/face_expression_model-shard1/face_expression_model-weights_manifest.json'),
+  faceapi.nets.faceExpressionNet.loadFromUri('https://ardkyer.github.io/MATCH\_CV/models/face\_expression\_model-shard1')
 ])
 .then(startVideo)
 .catch((error) => {
