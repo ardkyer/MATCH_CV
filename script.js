@@ -49,4 +49,3 @@ video.addEventListener('play', () => {
 
   detectFaces();
 }, 100);
-});
